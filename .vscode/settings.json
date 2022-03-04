@@ -1,0 +1,47 @@
+{
+    "go.lintOnSave": "off",
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    "[go.mod]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+
+    },
+    "gopls": {
+        "ui.completion.usePlaceholders": true,
+        "codelenses": {
+            "generate": false, // Don't show the `go generate` lens.
+            "gc_details": true // Show a code lens toggling the display of gc's choices.
+        },
+        "analyses": {
+            "unreachable": false, // Disable the unreachable analyzer.
+            "unusedparams": true // Enable the unusedparams analyzer.
+        },
+        "symbolStyle": "Dynamic",
+    },
+    "editor.find.addExtraSpaceOnTop": false,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": false,
+    "editor.rulers": [100],
+    "editor.minimap.enabled": true,
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontSize": 14,
+    "editor.renderWhitespace": "all",
+    "editor.renderControlCharacters": true,
+    "editor.fontWeight": "normal",
+    "editor.smoothScrolling": true,
+    "files.autoSave": "onFocusChange",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "go.autocompleteUnimportedPackages": true,
+    "go.docsTool": "gogetdoc"
+}

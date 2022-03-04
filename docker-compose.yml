@@ -1,0 +1,21 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: golang_restfull_api
+    volumes:
+        - ./mysql/data/sql_data/:/docker-entrypoint-initdb.d
+        - ./mysql/data/conf.d/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+        - db_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+    db_data:
