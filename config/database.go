@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
+	"github.com/sumitroajiprabowo/gin-gorm-jwt-mysql/entity"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -47,6 +48,9 @@ func SetupDatabase() *gorm.DB {
 
 	// SetConnIdleTime sets the maximum amount of time a connection may be reused.
 	sqlDB.SetConnMaxLifetime(10 * time.Hour)
+
+	// Migrate the schema
+	db.AutoMigrate(&entity.User{}, &entity.Book{})
 
 	return db
 
