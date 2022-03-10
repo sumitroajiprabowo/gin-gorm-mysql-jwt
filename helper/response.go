@@ -15,7 +15,7 @@ type EmptyObject struct {
 }
 
 // SuccessResponse returns a success response with the given data
-func SuccessResponse(code int, message string, errors interface{}, data interface{}) Response {
+func SuccessResponse(code int, message string, data interface{}) Response {
 	return Response{
 		Code:    code,
 		Message: message,
