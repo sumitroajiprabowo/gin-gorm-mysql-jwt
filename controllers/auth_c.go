@@ -43,7 +43,7 @@ func (c *authController) Login(ctx *gin.Context) {
 	}
 	authResult := c.authService.VerifyCredential(loginDTO.Email, loginDTO.Password)
 	if v, ok := authResult.(entity.User); ok {
-		generatedToken := c.jwtService.GenerateToken(strconv.Itoa(int(v.Id)))
+		generatedToken := c.jwtService.GenerateToken(strconv.Itoa(int(v.ID)))
 		v.Token = generatedToken
 		response := helper.SuccessResponse(http.StatusOK, "Login Success", v)
 		ctx.JSON(http.StatusOK, response)
@@ -68,7 +68,7 @@ func (c *authController) Register(ctx *gin.Context) {
 		return
 	} else {
 		createdUser := c.authService.CreateUser(registerDTO)
-		token := c.jwtService.GenerateToken(strconv.Itoa(int(createdUser.Id)))
+		token := c.jwtService.GenerateToken(strconv.Itoa(int(createdUser.ID)))
 		createdUser.Token = token
 		response := helper.SuccessResponse(http.StatusCreated, "Register Success", createdUser)
 		ctx.JSON(http.StatusCreated, response)
