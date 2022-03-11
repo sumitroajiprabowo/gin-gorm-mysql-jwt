@@ -10,11 +10,13 @@ import (
 )
 
 var (
-	db             *gorm.DB                  = config.SetupDatabase()
-	userRepository repository.UserRepository = repository.NewUserRepository(db)
-	jwtService     services.JWTService       = services.NewJWTService()
-	authService    services.AuthService      = services.NewAuthService(userRepository)
-	authController                           = controllers.NewAuthController(authService, jwtService)
+	db             *gorm.DB                   = config.SetupDatabase()
+	userRepository repository.UserRepository  = repository.NewUserRepository(db)
+	jwtService     services.JWTService        = services.NewJWTService()
+	userService    services.UserService       = services.NewUserService(userRepository)
+	authService    services.AuthService       = services.NewAuthService(userRepository)
+	authController                            = controllers.NewAuthController(authService, jwtService)
+	userController controllers.UserController = controllers.NewUserController(userService, jwtService)
 )
 
 func main() {
@@ -25,6 +27,12 @@ func main() {
 	{
 		authRoutes.POST("/login", authController.Login)
 		authRoutes.POST("/register", authController.Register)
+	}
+
+	userRoutes := r.Group("/api/user")
+	{
+		userRoutes.GET("/profile", userController.GetUser)
+		userRoutes.PUT("/profile", userController.UpdateUser)
 	}
 
 	r.Run()
