@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -48,7 +47,7 @@ func (c *userController) UpdateUser(ctx *gin.Context) {
 
 	claims := token.Claims.(jwt.MapClaims)
 
-	userId, err := strconv.ParseUint(fmt.Sprintf("%v", claims["userId"]), 10, 64)
+	userId, err := strconv.ParseUint(claims["userId"].(string), 10, 64)
 	if err != nil {
 		response := helper.ErrorsResponse(http.StatusBadRequest, "Failed to process request", err.Error(), helper.EmptyObject{})
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
