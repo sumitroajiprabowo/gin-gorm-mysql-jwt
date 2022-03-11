@@ -26,7 +26,7 @@ type UserRepository interface {
 	FindByEmail(email string) entity.User
 
 	//ProfileUser is find user by id
-	ProfileUser(userID string) entity.User
+	ProfileUser(userID int64) entity.User
 }
 
 //userConnection is a struct that implements connection to db with gorm
@@ -56,7 +56,7 @@ func (db *userConnection) UpdateUser(user entity.User) entity.User {
 		user.Password = hashAndSalt([]byte(user.Password)) //hash password
 	} else {
 		var tempUser entity.User               //get user from db
-		db.connection.Find(&tempUser, user.Id) //find user by id
+		db.connection.Find(&tempUser, user.ID) //find user by id
 		user.Password = tempUser.Password      //set password to user
 	}
 	db.connection.Save(&user) //save user to db
@@ -100,7 +100,7 @@ func (db *userConnection) FindByEmail(email string) entity.User {
 }
 
 // ProfileUser is find user by id and return user entity to caller function
-func (db *userConnection) ProfileUser(userID string) entity.User {
+func (db *userConnection) ProfileUser(userID int64) entity.User {
 	var user entity.User
 	db.connection.Preload("Books").Preload("Books.User").Find(&user, userID)
 	return user
