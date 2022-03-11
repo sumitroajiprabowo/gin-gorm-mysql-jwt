@@ -7,8 +7,8 @@ type Book struct {
 	Author      string `gorm:"type:varchar(255)" json:"author"`      // Data type varchar with json tag name for json marshalling
 	Price       int64  `gorm:"type:int(11)" json:"price"`            // Data type varchar with json tag name for json marshalling
 	Description string `gorm:"type:varchar(255)" json:"description"` // Data type varchar with json tag name for json marshalling
-	UserId      uint64 `gorm:"not_null" json:"-"`
+	UserID      uint64 `gorm:"not_null" json:"-"`
 
 	// Create a foreign key to user table
-	User User `gorm:"foreignkey:UserId;constrait:onUpdate:cascade;onDelete:cascade" json:"user"`
+	User User `gorm:"foreignkey:UserID;constraint:onUpdate:CASCADE,onDelete:CASCADE" json:"user"`
 }
