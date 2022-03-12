@@ -3,19 +3,38 @@ version: '3.1'
 
 services:
 
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ".:/app"
+    depends_on:
+      - db
+    networks:
+      - local
+
   db:
     image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
       MYSQL_DATABASE: golang_restfull_api
+      TZ: 'Asia/Jakarta'
     volumes:
         - ./mysql/data/sql_data/:/docker-entrypoint-initdb.d
         - ./mysql/data/conf.d/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
         - db_data:/var/lib/mysql
     ports:
       - 3306:3306
+    networks:
+      - local
+
 
 volumes:
     db_data:
+
+networks:
+  local:
+    driver: bridge
