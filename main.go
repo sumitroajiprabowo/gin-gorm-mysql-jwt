@@ -41,10 +41,17 @@ func main() {
 
 	bookRoutes := r.Group("api/books", middleware.AuthorizeJWT(jwtService))
 	{
-		bookRoutes.GET("/", bookController.GetAll)
-		bookRoutes.POST("/", bookController.CreateMyBook)
+		bookRoutes.GET("/", bookController.GetAllMyBook)
 		bookRoutes.GET("/:id", bookController.GetByID)
+		bookRoutes.POST("/", bookController.CreateMyBook)
 		bookRoutes.PUT("/:id", bookController.UpdateMyBook)
+		bookRoutes.DELETE("/:id", bookController.DeleteMyBook)
+	}
+
+	publicBookRoute := r.Group("/api/public/books")
+	{
+		publicBookRoute.GET("/", bookController.GetAll)
+		publicBookRoute.GET("/:id", bookController.GetByID)
 	}
 
 	r.Run()
