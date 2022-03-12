@@ -10,13 +10,13 @@ import (
 
 // JWT Service is a contract of what a JWT Service should be able to do.
 type JWTService interface {
-	GenerateToken(userId string) string             // Generate a new token
+	GenerateToken(userID string) string             // Generate a new token
 	ValidateToken(token string) (*jwt.Token, error) // Validate the token
 }
 
 // jwtCustomClaims is a struct that contains the custom claims for the JWT
 type jwtCustomClaim struct {
-	UserId             string `json:"userId"` // The userId is the only required field
+	UserID             string `json:"user_id"` // The userId is the only required field
 	jwt.StandardClaims        // This is a standard JWT claim
 }
 
@@ -24,6 +24,14 @@ type jwtCustomClaim struct {
 type jwtService struct {
 	secretKey string // Secret key used to sign the token
 	issuer    string // Who creates the token
+}
+
+//NewJWTService method is creates a new instance of JWTService
+func NewJWTService() JWTService {
+	return &jwtService{
+		issuer:    "gojwt",        // who creates the token
+		secretKey: getSecretKey(), // Call the getSecretKey function to get the secret key
+	}
 }
 
 // Create get the secret key from the environment variable
@@ -35,20 +43,12 @@ func getSecretKey() string {
 	return secretKey
 }
 
-//NewJWTService method is creates a new instance of JWTService
-func NewJWTService() JWTService {
-	return &jwtService{
-		secretKey: getSecretKey(), // Call the getSecretKey function to get the secret key
-		issuer:    "go-jwt",       // who creates the token
-	}
-}
-
 // Create a new token object, specifying signing method and the claims
-func (s *jwtService) GenerateToken(UserId string) string {
+func (s *jwtService) GenerateToken(userID string) string {
 
 	// Create the Claims struct with the required claims for the JWT
 	claims := &jwtCustomClaim{
-		UserId, // userId is the only required field
+		userID, // userId is the only required field
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().AddDate(1, 0, 0).Unix(), // 1 year expiration
 			Issuer:    s.issuer,                           // who creates the token
