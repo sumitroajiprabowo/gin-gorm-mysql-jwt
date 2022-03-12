@@ -36,9 +36,9 @@ func NewJWTService() JWTService {
 
 // Create get the secret key from the environment variable
 func getSecretKey() string {
-	secretKey := os.Getenv("JWT_SECRET_KEY")
+	secretKey := os.Getenv("JWT_SECRET_KEY") // Get the secret key from the environment variable
 	if secretKey == "" {
-		secretKey = "secret"
+		secretKey = "secret" // If the environment variable is empty, use a default value
 	}
 	return secretKey
 }
@@ -51,7 +51,7 @@ func (s *jwtService) GenerateToken(userID string) string {
 		userID, // userId is the only required field
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().AddDate(1, 0, 0).Unix(), // 1 year expiration
-			Issuer:    s.issuer,                           // who creates the token
+			Issuer:    s.issuer,                           // Who creates the token
 			IssuedAt:  time.Now().Unix(),                  // when the token was issued/created (now)
 		},
 	}
