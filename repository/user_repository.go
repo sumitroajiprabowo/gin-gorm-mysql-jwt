@@ -31,7 +31,7 @@ type UserRepository interface {
 
 //userConnection is a struct that implements connection to db with gorm
 type userConnection struct {
-	connection *gorm.DB
+	connection *gorm.DB //connection to db with gorm
 }
 
 /*
@@ -39,7 +39,7 @@ NewUserRepository is creates a new instance of UserRepository with gorm connecti
 */
 func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userConnection{
-		connection: db,
+		connection: db, //set connection to db
 	}
 }
 
@@ -88,30 +88,30 @@ func (db *userConnection) VerifyCredential(email string, password string) interf
 
 //IsDuplicateEmail is check duplicate email and return transaction to caller function
 func (db *userConnection) IsDuplicateEmail(email string) (tx *gorm.DB) {
-	var user entity.User
-	return db.connection.Where("email = ?", email).Take(&user)
+	var user entity.User                                       //get user from db
+	return db.connection.Where("email = ?", email).Take(&user) //find user by email
 }
 
 // FindByEmail is find user by email and return user entity to caller function
 func (db *userConnection) FindByEmail(email string) entity.User {
-	var user entity.User
-	db.connection.Where("email = ?", email).Take(&user)
-	return user
+	var user entity.User                                //get user from db
+	db.connection.Where("email = ?", email).Take(&user) //find user by email
+	return user                                         //return user
 }
 
 // ProfileUser is find user by id and return user entity to caller function
 func (db *userConnection) ProfileUser(userID int64) entity.User {
-	var user entity.User
-	db.connection.Preload("Books").Preload("Books.User").Find(&user, userID)
-	return user
+	var user entity.User                                                     // get user from db
+	db.connection.Preload("Books").Preload("Books.User").Find(&user, userID) //find user by id and preload books and user
+	return user                                                              //return user
 }
 
 // hashAndSalt is hash password and return hashed password
 func hashAndSalt(pwd []byte) string {
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost) //hash password
 	if err != nil {
 		log.Println(err)
-		panic("Failed to hash a password")
+		panic("Failed to hash a password") //panic if failed to hash password
 	}
-	return string(hash)
+	return string(hash) //return hashed password
 }

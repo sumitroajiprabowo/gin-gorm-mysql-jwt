@@ -1,2 +1,267 @@
+@baseUrl = http://localhost:8080/api
+
 ###
-POST http://localhost:8080/api/auth/login
+POST {{baseUrl}}/auth/register HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+    "name": "Danu",
+    "email": "danu@anakdesa.id",
+    "password": "12345678"
+}
+
+
+###
+# @name login
+POST {{baseUrl}}/auth/login HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+    "email": "danu@anakdesa.id",
+    "password": "12345678"
+}
+
+###
+
+@authToken = {{login.response.body.data.token}}
+
+
+###
+GET {{baseUrl}}/user/profile HTTP/1.1
+Accept: application/json
+Authorization: {{authToken}}
+
+###
+PUT {{baseUrl}}/user/profile HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+
+{
+    "name": "Danu Update",
+    "email": "danu@anakdesa.id",
+    "password": "12345678"
+}
+
+###
+# @name createBook
+POST {{baseUrl}}/books HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+
+{
+    "title": "Buku Baru",
+    "author": "Author Baru",
+    "price": 100000,
+    "description": "Description Baru"
+}
+
+###
+# @name createBook1
+POST {{baseUrl}}/books HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+
+{
+    "title": "Buku Baru Lagi",
+    "author": "Author Baru Lagi",
+    "price": 200000,
+    "description": "Description Baru Lagi"
+}
+
+###
+@bookId = {{createBook.response.body.data.id}}
+@book1Id = {{createBook1.response.body.data.id}}
+
+###
+PUT {{baseUrl}}/books/{{bookId}} HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "id": {{bookId}},
+    "title": "Buku Update bos",
+    "author": "Author Update",
+    "price": 100000,
+    "description": "Description Update"
+}
+
+###
+DELETE {{baseUrl}}/books/{{bookId}} HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+###
+GET {{baseUrl}}/books/{{bookId}} HTTP/1.1
+Authorization: {{authToken}}
+
+###
+PUT {{baseUrl}}/books/{{book1Id}} HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+{
+    "id": {{book1Id}},
+    "title": "Buku Baru Update Lagi",
+    "author": "Author Baru Update Lagi",
+    "price": 200000,
+    "description": "Description Baru Update Lagi"
+}
+
+###
+DELETE {{baseUrl}}/books/{{book1Id}} HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authToken}}
+
+###
+GET {{baseUrl}}/books/{{book1Id}} HTTP/1.1
+Authorization: {{authToken}}
+
+###
+GET {{baseUrl}}/books HTTP/1.1
+Authorization: {{authToken}}
+
+
+###
+POST {{baseUrl}}/auth/register HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+    "name": "Budi",
+    "email": "budi@anakdesa.id",
+    "password": "11111111"
+}
+
+
+###
+# @name newlogin
+POST {{baseUrl}}/auth/login HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+    "email": "budi@anakdesa.id",
+    "password": "11111111"
+}
+
+###
+
+@authTokenNew = {{newlogin.response.body.data.token}}
+
+###
+GET {{baseUrl}}/user/profile HTTP/1.1
+Accept: application/json
+Authorization: {{authTokenNew}}
+
+###
+PUT {{baseUrl}}/user/profile HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authTokenNew}}
+
+
+{
+    "name": "Budi Update",
+    "email": "budi@anakdesa.id"
+}
+
+###
+# @name createNewBook
+POST {{baseUrl}}/books HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authTokenNew}}
+
+
+{
+    "title": "Buku Budi",
+    "author": "Author Budi",
+    "price": 100000,
+    "description": "Description Buku Budi"
+}
+
+###
+
+@newBookId = {{createNewBook.response.body.data.id}}
+
+###
+PUT {{baseUrl}}/books/{{newBookId}} HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authTokenNew}}
+
+{
+    "id": {{newBookId}},
+    "title": "Buku Budi Update bos",
+    "author": "Author Budi Update",
+    "price": 100000,
+    "description": "Description Budi Update"
+}
+
+###
+DELETE {{baseUrl}}/books/{{newBookId}} HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: {{authTokenNew}}
+
+###
+GET {{baseUrl}}/books HTTP/1.1
+Authorization: {{authTokenNew}}
+
+###
+GET {{baseUrl}}/books/{{newBookId}} HTTP/1.1
+Authorization: {{authTokenNew}}
+
+
+###
+POST {{baseUrl}}/auth/register HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+    "name": "Otong",
+    "email": "otong@anakdesa.id",
+    "password": "22222222"
+}
+
+
+###
+# @name newLoginExtra
+POST {{baseUrl}}/auth/login HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+
+{
+    "email": "otong@anakdesa.id",
+    "password": "22222222"
+}
+
+###
+GET {{baseUrl}}/public/books HTTP/1.1
+Content-Type: application/json
+
+###
+GET {{baseUrl}}/public/books/{{newBookId}} HTTP/1.1
+Content-Type: application/json
+
+###
+GET {{baseUrl}}/public/books/{{bookId}} HTTP/1.1
+Content-Type: application/json
