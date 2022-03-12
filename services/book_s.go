@@ -11,12 +11,12 @@ import (
 )
 
 type BookService interface {
-	GetAll() []entity.Book
-	GetByID(bookID uint64) entity.Book
-	GetAllMyBook(userID int64) []entity.Book
 	CreateMyBook(b dto.BookCreateDTORequest) entity.Book
 	UpdateMyBook(b dto.BookUpdateDTORequest) entity.Book
 	DeleteMyBook(b entity.Book)
+	GetAll() []entity.Book
+	GetByID(bookID uint64) entity.Book
+	GetAllMyBook() []entity.Book
 	IsAllowedActionBook(userID string, bookID uint64) bool
 }
 
@@ -28,16 +28,16 @@ func NewBookService(bookRepo repository.BookRepository) BookService {
 	return &bookService{bookRepository: bookRepo}
 }
 
-func (b *bookService) GetAll() []entity.Book {
-	return b.bookRepository.GetAll()
+func (s *bookService) GetAll() []entity.Book {
+	return s.bookRepository.GetAll()
 }
 
-func (b *bookService) GetByID(bookID uint64) entity.Book {
-	return b.bookRepository.GetByID(bookID)
+func (s *bookService) GetByID(bookID uint64) entity.Book {
+	return s.bookRepository.GetByID(bookID)
 }
 
-func (b *bookService) GetAllMyBook(userID int64) []entity.Book {
-	return b.bookRepository.GetAllMyBook(userID)
+func (s *bookService) GetAllMyBook() []entity.Book {
+	return s.bookRepository.GetAllMyBook()
 }
 
 func (s *bookService) CreateMyBook(b dto.BookCreateDTORequest) entity.Book {
@@ -61,7 +61,7 @@ func (s *bookService) UpdateMyBook(b dto.BookUpdateDTORequest) entity.Book {
 }
 
 func (s *bookService) DeleteMyBook(b entity.Book) {
-	s.bookRepository.DeleteMyBook(b)
+	s.bookRepository.DeleteMyBook(b) // delete book
 }
 
 func (s *bookService) IsAllowedActionBook(userID string, bookID uint64) bool {
