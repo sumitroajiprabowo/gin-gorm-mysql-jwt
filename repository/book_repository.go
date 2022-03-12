@@ -8,7 +8,7 @@ import (
 type BookRepository interface {
 	GetAll() []entity.Book
 	GetByID(bookID uint64) entity.Book
-	GetAllMyBook(userID int64) []entity.Book
+	GetAllMyBook() []entity.Book
 	CreateMyBook(b entity.Book) entity.Book
 	UpdateMyBook(b entity.Book) entity.Book
 	DeleteMyBook(b entity.Book)
@@ -24,31 +24,31 @@ func NewBookRepository(connection *gorm.DB) BookRepository {
 
 func (db *bookConnection) GetAll() []entity.Book {
 	var books []entity.Book
-	db.connection.Find(&books)
+	db.connection.Preload("User").Find(&books)
 	return books
 }
 
-func (db *bookConnection) GetAllMyBook(userID int64) []entity.Book {
+func (db *bookConnection) GetAllMyBook() []entity.Book {
 	var books []entity.Book
-	db.connection.Where("user_id = ?", userID).Find(&books)
+	db.connection.Preload("User").Find(&books)
 	return books
-	// db.connection.Preload("User").Find(&books)
-	// return books
 }
 
 func (db *bookConnection) GetByID(bookID uint64) entity.Book {
-	var book entity.Book
-	db.connection.Where("id = ?", bookID).First(&book)
+	var book entity.Book                              // create variable book
+	db.connection.Preload("User").Find(&book, bookID) // get data book from bookID and preload user from book
 	return book
 }
 
 func (db *bookConnection) CreateMyBook(b entity.Book) entity.Book {
-	db.connection.Create(&b)
+	db.connection.Save(&b)                 // save insert book
+	db.connection.Preload("User").Find(&b) // get data user from book
 	return b
 }
 
 func (db *bookConnection) UpdateMyBook(b entity.Book) entity.Book {
-	db.connection.Save(&b)
+	db.connection.Save(&b)                 // save update book
+	db.connection.Preload("User").Find(&b) // get data user from book
 	return b
 }
 
