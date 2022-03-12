@@ -54,6 +54,6 @@ func main() {
 		publicBookRoute.GET("/:id", bookController.GetByID)
 	}
 
-	r.Run()
+	r.Run(":8080")
 
 }
