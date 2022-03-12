@@ -14,7 +14,6 @@ import (
 // Auth Controller interface is a contract for all auth controller
 type AuthController interface {
 	Login(c *gin.Context)
-
 	Register(c *gin.Context)
 }
 
