@@ -1,14 +1,19 @@
-# Use root/example as user/password credentials
 version: '3.1'
 
 services:
 
-  web:
-    build: .
-    ports:
-      - "8080:8080"
+  go_api:
+    restart: always
+    container_name: go_api
+    build:
+      context: .
+    command: /bin/sh -c "go run main.go"
+    stdin_open: true
+    tty: true
     volumes:
-      - ".:/app"
+      - .:/app
+    ports:
+      - 8080:8080
     depends_on:
       - db
     networks:
@@ -16,11 +21,16 @@ services:
 
   db:
     image: mysql
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     restart: always
+    container_name: db_mysql
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: golang_restfull_api
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
       TZ: 'Asia/Jakarta'
     volumes:
         - ./mysql/data/sql_data/:/docker-entrypoint-initdb.d
