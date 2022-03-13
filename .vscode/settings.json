@@ -43,5 +43,21 @@
     "files.insertFinalNewline": true,
     "files.trimTrailingWhitespace": true,
     "go.autocompleteUnimportedPackages": true,
-    "go.docsTool": "gogetdoc"
+    "go.docsTool": "gogetdoc",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "localhost",
+            "group": "Go",
+            "database": "golang_restfull_api",
+            "username": "user",
+            "password": "example"
+        }
+    ]
 }
