@@ -9,10 +9,10 @@ ADD go.sum .
 
 
 RUN go mod download
-RUN go get github.com/githubnemo/CompileDaemon
+# RUN go get github.com/githubnemo/CompileDaemon
 
-ADD . .
+# ADD . .
 
-EXPOSE 8080
+# EXPOSE 8080
 
-ENTRYPOINT CompileDaemon --build="go build main.go" --command=./main
+# ENTRYPOINT CompileDaemon --build="go build main.go" --command=./main
