@@ -17,3 +17,10 @@ $ git@github.com:sumitroajiprabowo/gin-gorm-mysql-jwt.git
 ```bash
 docker-compose up --build
 ```
+
+
+#### Stop using Docker
+
+```bash
+docker-compose down
+```
